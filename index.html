@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Proyek: Arduino Lie Detector</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Proyek: Arduino Lie Detector</h1>
+            <p>Mengungkap rahasia di balik denyut nadi dan respons kulit.</p>
+            <a href="#project-details" class="cta-button">Jelajahi Proyek</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="project-details" class="section">
+            <h2 class="section-title">Detail Proyek</h2>
+            <p>Proyek ini adalah demonstrasi sederhana alat detektor kebohongan (poligraf) yang dibuat menggunakan platform Arduino. Alat ini mengukur dua parameter fisiologis utama yang sering dikaitkan dengan respons stres: **Galvanic Skin Response (GSR)** dan **detak jantung**.</p>
+            <div class="component-list">
+                <h3>Komponen yang Digunakan:</h3>
+                <ul>
+                    <li><i class="icon"></i>Arduino Board</li>
+                    <li><i class="icon"></i>Sensor GSR</li>
+                    <li><i class="icon"></i>Sensor Detak Jantung</li>
+                    <li><i class="icon"></i>Breadboard & Kabel Jumper</li>
+                </ul>
+            </div>
+            <div class="image-container">
+                <img src="images/arduino-diagram.png" alt="Skema Rangkaian Arduino Lie Detector" class="project-image">
+                <p class="caption">Skema rangkaian proyek.</p>
+            </div>
+        </section>
+
+        <section id="data-visualization" class="section">
+            <h2 class="section-title">Simulasi Data & Visualisasi</h2>
+            <p>Lihat bagaimana data fisiologis berfluktuasi saat diuji.</p>
+            <div class="chart-container">
+                <canvas id="lieDetectorChart"></canvas>
+            </div>
+            <div class="simulation-controls">
+                <button id="simulateTruth">Simulasikan Jujur</button>
+                <button id="simulateLie">Simulasikan Berbohong</button>
+            </div>
+        </section>
+
+        <section id="code" class="section">
+            <h2 class="section-title">Kode & Repositori</h2>
+            <p>Kode proyek ini tersedia di GitHub. Anda bisa melihat sketsa Arduino dan kode untuk visualisasi data.</p>
+            <pre><code class="language-arduino">
+                
+// Contoh Sketsa Arduino
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int gsrValue = analogRead(A0);
+  Serial.print("GSR:");
+  Serial.print(gsrValue);
+  Serial.println();
+  delay(500);
+}
+            </code></pre>
+            <a href="https://github.com/your-username/your-repo" target="_blank" class="github-button">Kunjungi Repositori GitHub</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 NEURON. Semua Hak Cipta Dilindungi.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
