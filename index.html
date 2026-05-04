@@ -63,6 +63,38 @@
         Data BPM langsung dari sensor ESP32 melalui Blynk Cloud.
       </p>
 
+      <div class="mb-6" data-aos="fade-up" data-aos-delay="80">
+
+        <!-- Tampilan nama setelah diisi -->
+        <div id="namaDisplay" class="hidden mb-3 items-center gap-2 flex-wrap">
+          <span class="text-gray-400 text-sm">Peserta:</span>
+          <span id="namaTampil" class="text-cyan-400 font-semibold text-sm sm:text-base"></span>
+          <button id="btnGantiNama"
+            class="px-3 py-1 rounded bg-gray-700 text-gray-300 text-xs hover:bg-gray-600 transition">
+            Ganti Nama
+          </button>
+        </div>
+
+        <!-- Input nama (disembunyikan setelah nama diset) -->
+        <div id="namaInputArea" class="mb-3">
+          <input id="inputNama" type="text" placeholder="Masukkan nama peserta..."
+            class="w-full sm:w-auto sm:min-w-64 px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-gray-100 placeholder-gray-500 focus:outline-none focus:border-cyan-500 text-sm sm:text-base">
+        </div>
+        <p id="namaError" class="text-red-400 text-xs hidden mb-3">Nama peserta harus diisi sebelum memulai sesi.</p>
+
+        <!-- Tombol Start & Finish selalu tampil -->
+        <div class="flex flex-wrap gap-3">
+          <button id="btnStart"
+            class="flex-1 sm:flex-none px-5 py-2 rounded-lg bg-cyan-500 text-gray-900 font-semibold hover:bg-cyan-400 transition text-sm sm:text-base">
+            &#9654; Mulai Sesi
+          </button>
+          <button id="btnFinish" disabled
+            class="flex-1 sm:flex-none px-5 py-2 rounded-lg bg-gray-700 text-gray-400 font-semibold cursor-not-allowed transition text-sm sm:text-base">
+            &#9632; Selesai
+          </button>
+        </div>
+      </div>
+
       <div class="bg-gray-900 rounded-xl p-4 sm:p-8" data-aos="zoom-in" data-aos-delay="100">
         <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-10">
 
@@ -74,29 +106,57 @@
           <div class="flex flex-col items-center sm:items-start justify-center flex-1 text-center sm:text-left">
             <p id="gaugeValue" class="text-4xl sm:text-5xl font-bold text-cyan-400">0 BPM</p>
             <p id="blynkStatus" class="mt-2 text-base sm:text-lg font-semibold text-gray-400">
-              Status: Menunggu data dari Blynk...
+              Tekan "Mulai Sesi" untuk memulai.
             </p>
             <ul class="mt-6 space-y-2 text-gray-300 text-sm sm:text-base">
               <li class="flex items-center gap-3">
                 <span class="w-3 h-3 rounded-full bg-gray-400 shrink-0"></span>
-                <span><strong>0 BPM</strong> → Menunggu</span>
+                <span><strong>0 BPM</strong> &rarr; Menunggu</span>
               </li>
               <li class="flex items-center gap-3">
                 <span class="w-3 h-3 rounded-full bg-green-400 shrink-0"></span>
-                <span><strong>&lt; 90 BPM</strong> → Tenang</span>
+                <span><strong>&lt; 90 BPM</strong> &rarr; Tenang</span>
               </li>
               <li class="flex items-center gap-3">
                 <span class="w-3 h-3 rounded-full bg-yellow-400 shrink-0"></span>
-                <span><strong>90 – 120 BPM</strong> → Tegang</span>
+                <span><strong>90 &ndash; 120 BPM</strong> &rarr; Tegang</span>
               </li>
               <li class="flex items-center gap-3">
                 <span class="w-3 h-3 rounded-full bg-red-500 shrink-0"></span>
-                <span><strong>&gt; 120 BPM</strong> → Bohong</span>
+                <span><strong>&gt; 120 BPM</strong> &rarr; Bohong</span>
               </li>
             </ul>
           </div>
 
         </div>
+      </div>
+    </section>
+
+    <!-- HASIL SESI -->
+    <section id="session-result" class="py-12 sm:py-20 hidden">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-2 sm:mb-4" data-aos="fade-right">Hasil Sesi</h2>
+      <p id="resultNama" class="text-cyan-400 font-semibold text-base sm:text-lg mb-6"></p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-8" id="resultCards"></div>
+
+      <div class="bg-gray-900 rounded-xl p-4 sm:p-6 overflow-x-auto" data-aos="fade-up">
+        <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+          <h3 class="text-base sm:text-lg font-semibold text-cyan-400">Riwayat Data per Detik</h3>
+          <button id="btnDownload"
+            class="px-4 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-500 transition text-sm flex items-center gap-2">
+            &#8681; Unduh Excel
+          </button>
+        </div>
+        <table class="w-full text-sm text-left text-gray-300">
+          <thead class="text-xs text-gray-500 uppercase border-b border-gray-700">
+            <tr>
+              <th class="py-2 pr-6">Detik ke-</th>
+              <th class="py-2 pr-6">BPM</th>
+              <th class="py-2">Status</th>
+            </tr>
+          </thead>
+          <tbody id="resultTable"></tbody>
+        </table>
       </div>
     </section>
 
@@ -228,18 +288,19 @@ void loop(){
       <a href="https://github.com/Neuron-XIPPLGB/Lie-Detector"
          target="_blank"
          class="block mt-6 text-blue-400 hover:underline text-sm sm:text-base">
-        Kunjungi Repositori GitHub →
+        Kunjungi Repositori GitHub &rarr;
       </a>
     </section>
 
   </main>
 
   <footer class="border-t border-gray-800 py-6 text-center text-gray-500 text-sm sm:text-base">
-    © 2025 NEURON. Semua Hak Cipta Dilindungi.
+    &copy; 2025 NEURON. Semua Hak Cipta Dilindungi.
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
