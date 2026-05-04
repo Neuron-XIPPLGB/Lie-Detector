@@ -1,4 +1,4 @@
-AOS.init({ once: true, offset: 80 });
+AOS.init({ once: false, offset: 80, disable: false, startEvent: 'DOMContentLoaded' });
 
 // TOGGLE KODE
 const dots = document.getElementById("dots");
