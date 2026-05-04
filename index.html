@@ -5,12 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NEURON - XI PPLG B | Pulse Sensor Lie Detector</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  <style>
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-animate { animation: fadeUp 0.9s ease both; }
+  </style>
 </head>
 <body class="bg-gray-950 text-gray-100 font-sans">
 
   <header class="min-h-screen flex items-center justify-center text-center px-4 sm:px-6 bg-gradient-to-br from-cyan-500/10 to-purple-500/10">
-    <div class="max-w-3xl w-full" data-aos="fade-up" data-aos-duration="900">
+    <div class="max-w-3xl w-full hero-animate">
       <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold mb-4">
         ESP32 Pulse Sensor Lie Detector
       </h1>
@@ -211,6 +217,7 @@ void loop(){
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script src="script.js"></script>
 </body>
