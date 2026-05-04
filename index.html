@@ -4,15 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NEURON - XI PPLG B | Pulse Sensor Lie Detector</title>
-  <link rel="stylesheet" href="style.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script src="script.js"></script>
 </head>
 <body class="bg-gray-950 text-gray-100 font-sans">
 
   <header class="min-h-screen flex items-center justify-center text-center px-4 sm:px-6 bg-gradient-to-br from-cyan-500/10 to-purple-500/10">
-    <div class="max-w-3xl w-full">
+    <div class="max-w-3xl w-full" data-aos="fade-up" data-aos-duration="900">
       <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold mb-4">
         ESP32 Pulse Sensor Lie Detector
       </h1>
@@ -29,22 +30,22 @@
   <main class="max-w-6xl mx-auto px-4 sm:px-6">
 
     <section id="project-details" class="py-12 sm:py-20">
-      <h2 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Detail Proyek</h2>
-      <p class="text-gray-300 text-sm sm:text-base mb-6 sm:mb-8">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" data-aos="fade-right">Detail Proyek</h2>
+      <p class="text-gray-300 text-sm sm:text-base mb-6 sm:mb-8" data-aos="fade-up" data-aos-delay="100">
         Proyek ini menggunakan <span class="text-cyan-400 font-semibold">Heart Pulse Sensor</span>
         untuk mengukur <span class="font-semibold">BPM (Beats Per Minute)</span>.
         Perubahan BPM digunakan sebagai indikator kondisi psikologis pengguna.
       </p>
 
       <div class="grid sm:grid-cols-2 gap-6 sm:gap-8">
-        <ul class="space-y-3 text-gray-300 text-sm sm:text-base">
+        <ul class="space-y-3 text-gray-300 text-sm sm:text-base" data-aos="fade-right" data-aos-delay="150">
           <li>✔ ESP32</li>
           <li>✔ Heart Pulse Sensor</li>
           <li>✔ Aplikasi Blynk</li>
           <li>✔ Kabel Jumper</li>
         </ul>
 
-        <div class="h-40 sm:h-48 w-full flex items-center justify-center bg-gray-900 rounded-lg shadow-lg overflow-hidden">
+        <div class="h-40 sm:h-48 w-full flex items-center justify-center bg-gray-900 rounded-lg shadow-lg overflow-hidden" data-aos="fade-left" data-aos-delay="150">
           <img src="images/arduino-diagram.png"
                alt="Diagram Rangkaian Pulse Sensor"
                class="w-full h-full object-contain">
@@ -53,9 +54,9 @@
     </section>
 
     <section id="data-visualization" class="py-12 sm:py-20">
-      <h2 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Visualisasi BPM</h2>
+      <h2 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" data-aos="fade-right">Visualisasi BPM</h2>
 
-      <div class="bg-gray-900 rounded-xl p-4 sm:p-6 h-64 sm:h-96">
+      <div class="bg-gray-900 rounded-xl p-4 sm:p-6 h-64 sm:h-96" data-aos="zoom-in" data-aos-delay="100">
         <canvas id="lieDetectorChart"></canvas>
       </div>
 
@@ -63,7 +64,7 @@
         Status: Menunggu
       </p>
 
-      <div class="mt-6 bg-gray-900 rounded-xl p-4 sm:p-5">
+      <div class="mt-6 bg-gray-900 rounded-xl p-4 sm:p-5" data-aos="fade-up" data-aos-delay="100">
         <h3 class="text-lg sm:text-xl font-semibold mb-4 text-cyan-400">
           Klasifikasi Detak Jantung (BPM)
         </h3>
@@ -88,7 +89,7 @@
         </ul>
       </div>
 
-      <div class="mt-6 flex flex-wrap gap-3 sm:gap-4">
+      <div class="mt-6 flex flex-wrap gap-3 sm:gap-4" data-aos="fade-up" data-aos-delay="150">
         <button id="simulateTruth"
             class="flex-1 sm:flex-none px-4 py-2 rounded bg-green-500 text-gray-900 font-medium hover:bg-green-400 transition text-sm sm:text-base">
             Simulasikan Tenang
@@ -105,9 +106,9 @@
     </section>
 
     <section id="code" class="py-12 sm:py-20">
-      <h2 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Kode Arduino</h2>
+      <h2 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" data-aos="fade-right">Kode Arduino</h2>
 
-      <pre class="bg-gray-900 rounded-xl p-4 sm:p-6 text-xs sm:text-sm text-green-400 overflow-x-auto">
+      <pre class="bg-gray-900 rounded-xl p-4 sm:p-6 text-xs sm:text-sm text-green-400 overflow-x-auto" data-aos="fade-up" data-aos-delay="100">
 <code>
 // ======================================
 //   IDENTITAS TEMPLATE BLYNK
