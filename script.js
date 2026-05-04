@@ -1,4 +1,4 @@
-const BLYNK_TOKEN = "";
+const BLYNK_TOKEN = "TJVGOror5c-VtwcyFh1iudIVL-p4T4U8";
 const BLYNK_BASE  = "https://blynk.cloud/external/api/get";
 
 AOS.init({ once: false, offset: 80, disable: false, startEvent: 'DOMContentLoaded' });
