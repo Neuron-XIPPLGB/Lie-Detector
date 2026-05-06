@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEURON - XI PPLG B | Pulse Sensor Lie Detector</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  <style>
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-animate { animation: fadeUp 0.9s ease both; }
+  </style>
+</head>
+<body class="bg-gray-950 text-gray-100 font-sans">
+
+  <header class="min-h-screen flex items-center justify-center text-center px-4 sm:px-6 bg-gradient-to-br from-cyan-500/10 to-purple-500/10">
+    <div class="max-w-3xl w-full hero-animate">
+      <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold mb-4">
+        ESP32 Pulse Sensor Lie Detector
+      </h1>
+      <p class="text-gray-300 text-sm sm:text-base mb-8">
+        Analisis detak jantung (BPM) untuk mendeteksi respons stres.
+      </p>
+      <a href="#project-details"
+         class="inline-block px-6 py-3 bg-cyan-500 text-gray-900 font-semibold rounded-lg hover:bg-cyan-400 transition text-sm sm:text-base">
+        Jelajahi Proyek
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6">
+
+    <section id="project-details" class="py-12 sm:py-20">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" data-aos="fade-right">Detail Proyek</h2>
+      <p class="text-gray-300 text-sm sm:text-base mb-6 sm:mb-8" data-aos="fade-up" data-aos-delay="100">
+        Proyek ini menggunakan <span class="text-cyan-400 font-semibold">Heart Pulse Sensor</span>
+        untuk mengukur <span class="font-semibold">BPM (Beats Per Minute)</span>.
+        Perubahan BPM digunakan sebagai indikator kondisi psikologis pengguna.
+      </p>
+
+      <div class="grid sm:grid-cols-2 gap-6 sm:gap-8">
+        <ul class="space-y-3 text-gray-300 text-sm sm:text-base" data-aos="fade-right" data-aos-delay="150">
+          <li>✔ ESP32</li>
+          <li>✔ Heart Pulse Sensor</li>
+          <li>✔ Aplikasi Blynk</li>
+          <li>✔ Kabel Jumper</li>
+        </ul>
+
+        <div class="h-40 sm:h-48 w-full flex items-center justify-center bg-gray-900 rounded-lg shadow-lg overflow-hidden" data-aos="fade-left" data-aos-delay="150">
+          <img src="images/arduino-diagram.png"
+               alt="Diagram Rangkaian Pulse Sensor"
+               class="w-full h-full object-contain">
+        </div>
+      </div>
+    </section>
+
+    <section id="blynk-monitor" class="py-12 sm:py-20">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" data-aos="fade-right">Monitor Real-time dari Blynk</h2>
+      <p class="text-gray-300 text-sm sm:text-base mb-6" data-aos="fade-up" data-aos-delay="50">
+        Data BPM langsung dari sensor ESP32 melalui Blynk Cloud.
+      </p>
+
+      <div class="mb-6" data-aos="fade-up" data-aos-delay="80">
+
+        <!-- Tampilan nama setelah diisi -->
+        <div id="namaDisplay" class="hidden mb-3 items-center gap-2 flex-wrap">
+          <span class="text-gray-400 text-sm">Peserta:</span>
+          <span id="namaTampil" class="text-cyan-400 font-semibold text-sm sm:text-base"></span>
+          <button id="btnGantiNama"
+            class="px-3 py-1 rounded bg-gray-700 text-gray-300 text-xs hover:bg-gray-600 transition">
+            Ganti Nama
+          </button>
+        </div>
+
+        <!-- Input nama (disembunyikan setelah nama diset) -->
+        <div id="namaInputArea" class="mb-3">
+          <input id="inputNama" type="text" placeholder="Masukkan nama peserta..."
+            class="w-full sm:w-auto sm:min-w-64 px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-gray-100 placeholder-gray-500 focus:outline-none focus:border-cyan-500 text-sm sm:text-base">
+        </div>
+        <p id="namaError" class="text-red-400 text-xs hidden mb-3">Nama peserta harus diisi sebelum memulai sesi.</p>
+
+        <!-- Tombol Start & Finish selalu tampil -->
+        <div class="flex flex-wrap gap-3">
+          <button id="btnStart"
+            class="flex-1 sm:flex-none px-5 py-2 rounded-lg bg-cyan-500 text-gray-900 font-semibold hover:bg-cyan-400 transition text-sm sm:text-base">
+            &#9654; Mulai Sesi
+          </button>
+          <button id="btnFinish" disabled
+            class="flex-1 sm:flex-none px-5 py-2 rounded-lg bg-gray-700 text-gray-400 font-semibold cursor-not-allowed transition text-sm sm:text-base">
+            &#9632; Selesai
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-gray-900 rounded-xl p-4 sm:p-8" data-aos="zoom-in" data-aos-delay="100">
+        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-10">
+
+          <div class="w-48 sm:w-64 shrink-0">
+            <p class="text-xs text-gray-500 mb-2 text-center">Gauge BPM Real-time</p>
+            <canvas id="gaugeChart"></canvas>
+          </div>
+
+          <div class="flex flex-col items-center sm:items-start justify-center flex-1 text-center sm:text-left">
+            <p id="gaugeValue" class="text-4xl sm:text-5xl font-bold text-cyan-400">0 BPM</p>
+            <p id="blynkStatus" class="mt-2 text-base sm:text-lg font-semibold text-gray-400">
+              Tekan "Mulai Sesi" untuk memulai.
+            </p>
+            <ul class="mt-6 space-y-2 text-gray-300 text-sm sm:text-base">
+              <li class="flex items-center gap-3">
+                <span class="w-3 h-3 rounded-full bg-gray-400 shrink-0"></span>
+                <span><strong>0 BPM</strong> &rarr; Menunggu</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="w-3 h-3 rounded-full bg-green-400 shrink-0"></span>
+                <span><strong>&lt; 90 BPM</strong> &rarr; Tenang</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="w-3 h-3 rounded-full bg-yellow-400 shrink-0"></span>
+                <span><strong>90 &ndash; 120 BPM</strong> &rarr; Tegang</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="w-3 h-3 rounded-full bg-red-500 shrink-0"></span>
+                <span><strong>&gt; 120 BPM</strong> &rarr; Bohong</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- HASIL SESI -->
+    <section id="session-result" class="py-12 sm:py-20 hidden">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-2 sm:mb-4" data-aos="fade-right">Hasil Sesi</h2>
+      <p id="resultNama" class="text-cyan-400 font-semibold text-base sm:text-lg mb-6"></p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-8" id="resultCards"></div>
+
+      <div class="bg-gray-900 rounded-xl p-4 sm:p-6 overflow-x-auto" data-aos="fade-up">
+        <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+          <h3 class="text-base sm:text-lg font-semibold text-cyan-400">Riwayat Data per Detik</h3>
+          <button id="btnDownload"
+            class="px-4 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-500 transition text-sm flex items-center gap-2">
+            &#8681; Unduh Excel
+          </button>
+        </div>
+        <table class="w-full text-sm text-left text-gray-300">
+          <thead class="text-xs text-gray-500 uppercase border-b border-gray-700">
+            <tr>
+              <th class="py-2 pr-6">Detik ke-</th>
+              <th class="py-2 pr-6">BPM</th>
+              <th class="py-2">Status</th>
+            </tr>
+          </thead>
+          <tbody id="resultTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="data-visualization" class="py-12 sm:py-20">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" data-aos="fade-right">Simulasi BPM (Testing Manual)</h2>
+      <p class="text-gray-300 text-sm sm:text-base mb-6" data-aos="fade-up" data-aos-delay="50">
+        Gunakan tombol di bawah untuk mensimulasikan kondisi berbeda tanpa sensor.
+      </p>
+
+      <div class="bg-gray-900 rounded-xl p-4 sm:p-6 h-56 sm:h-80" data-aos="zoom-in" data-aos-delay="100">
+        <canvas id="lieDetectorChart"></canvas>
+      </div>
+
+      <p id="bpmStatus" class="mt-4 text-base sm:text-lg font-semibold text-gray-400">
+        Status: Menunggu
+      </p>
+
+      <div class="mt-6 flex flex-wrap gap-3" data-aos="fade-up" data-aos-delay="100">
+        <button id="simulateTruth"
+            class="flex-1 sm:flex-none px-4 py-2 rounded bg-green-500 text-gray-900 font-medium hover:bg-green-400 transition text-sm sm:text-base">
+            Simulasikan Tenang
+        </button>
+        <button id="simulateLie"
+            class="flex-1 sm:flex-none px-4 py-2 rounded bg-red-500 text-gray-900 font-medium hover:bg-red-400 transition text-sm sm:text-base">
+            Simulasikan Bohong
+        </button>
+        <button id="resetChart"
+            class="flex-1 sm:flex-none px-4 py-2 rounded bg-gray-600 text-gray-100 font-medium hover:bg-gray-500 transition text-sm sm:text-base">
+            Reset
+        </button>
+      </div>
+    </section>
+
+    <section id="code" class="py-12 sm:py-20">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" data-aos="fade-right">Kode Arduino</h2>
+
+      <pre class="bg-gray-900 rounded-xl p-4 sm:p-6 text-xs sm:text-sm text-green-400 overflow-x-auto" data-aos="fade-up" data-aos-delay="100">
+<code>
+// ======================================
+//   IDENTITAS TEMPLATE BLYNK
+// ======================================
+#define BLYNK_TEMPLATE_ID "YOUR ID"
+#define BLYNK_TEMPLATE_NAME "LIE DETECTOR"
+#define BLYNK_DEVICE_NAME "ESP32_Pulse"
+#define BLYNK_AUTH_TOKEN "YOUR TOKEN"
+
+// ======================================
+//   LIBRARY
+// ======================================
+#include &lt;WiFi.h&gt;
+#include &lt;WiFiClient.h&gt;
+#include &lt;BlynkSimpleEsp32.h&gt;
+
+<span id="dots" class="text-gray-400">...</span>
+<span id="more" class="hidden">
+
+// KONFIGURASI WIFI
+char ssid[] = "YOUR SSID";
+char pass[] = "YOUR PASSWORD WI-FI";
+
+// KONFIGURASI SENSOR
+const int PulseSensorPin = 34;
+
+int sensorValue = 0;
+int BPM = 0;
+unsigned long lastBeat = 0;
+bool beatDetected = false;
+int lastSensorValue = 0;
+unsigned long lastSendTime = 0;
+
+BlynkTimer timer;
+
+// FUNGSI UNTUK MEMBACA & MENGIRIM DATA
+void sendData() {
+  sensorValue = analogRead(PulseSensorPin);
+
+  if(sensorValue>600 && lastSensorValue<=600){
+    unsigned long currentTime = millis();
+    if(currentTime - lastBeat > 600){
+      BPM = 60000/(currentTime - lastBeat);
+      lastBeat = currentTime;
+      beatDetected = true;
+    }
+  }
+
+  if(millis()-lastBeat>9000){
+    BPM=0;
+    beatDetected=false;
+  }
+
+  lastSensorValue = sensorValue;
+
+  if(millis()-lastSendTime>=1000){
+    Blynk.virtualWrite(V0,sensorValue);
+    Blynk.virtualWrite(V1,BPM);
+
+    if(BPM==0) Blynk.virtualWrite(V2,"Menunggu...");
+    else if(BPM<90) Blynk.virtualWrite(V2,"Tenang");
+    else if(BPM<=120) Blynk.virtualWrite(V2,"Tegang");
+    else Blynk.virtualWrite(V2,"Bohong");
+
+    Serial.print("Raw: "); Serial.print(sensorValue);
+    Serial.print(" | BPM: "); Serial.println(BPM);
+
+    lastSendTime = millis();
+  }
+}
+
+void setup(){
+  Serial.begin(115200);
+  pinMode(PulseSensorPin,INPUT);
+  Blynk.begin(BLYNK_AUTH_TOKEN,ssid,pass);
+  timer.setInterval(50L,sendData);
+}
+
+void loop(){
+  Blynk.run();
+  timer.run();
+}
+</span>
+</code>
+      </pre>
+
+      <button id="btnCode"
+        class="mt-3 text-cyan-400 hover:text-cyan-300 font-medium transition text-sm sm:text-base">
+        Baca selengkapnya
+      </button>
+
+      <a href="https://github.com/Neuron-XIPPLGB/Lie-Detector"
+         target="_blank"
+         class="block mt-6 text-blue-400 hover:underline text-sm sm:text-base">
+        Kunjungi Repositori GitHub &rarr;
+      </a>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-gray-800 py-6 text-center text-gray-500 text-sm sm:text-base">
+    &copy; 2025 NEURON. Semua Hak Cipta Dilindungi.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
