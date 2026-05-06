@@ -20,7 +20,17 @@ export function useRiwayat() {
     fetch('/api/riwayat')
       .then(r => r.json())
       .then(data => {
-        setRiwayat(data.map((d: Record<string, unknown>) => ({ ...d, rawData: d.raw_data })));
+        if (Array.isArray(data))
+          setRiwayat(data.map((d: Record<string, unknown>) => ({
+            id: d.id as string,
+            nama: d.nama as string,
+            avg: d.avg as number,
+            max: d.max as number,
+            min: d.min as number,
+            kondisi: d.kondisi as string,
+            waktu: d.waktu as string,
+            rawData: d.raw_data as { nama: string; bpm: number; waktu: string }[],
+          })));
       })
       .finally(() => setLoading(false));
   }, []);

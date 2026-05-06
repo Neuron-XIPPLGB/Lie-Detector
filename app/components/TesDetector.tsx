@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { Chart, LineElement, PointElement, LinearScale, CategoryScale, Filler, LineController } from 'chart.js';
-import { getStatus, downloadCSV } from '../lib/utils';
+import { getStatus } from '../lib/utils';
 import { useRiwayat } from '../hooks/useRiwayat';
 import SectionHeader from './SectionHeader';
 
@@ -125,10 +125,7 @@ export default function TesDetector({ liveBpm, riwayatHook }: { liveBpm: number;
                 </div>
               ))}
             </div>
-            <button onClick={() => downloadCSV(kesimpulan.rawData, kesimpulan.rawData[0]?.nama ?? '', new Date().toLocaleString('id-ID'))}
-              className="mt-4 px-4 py-2 rounded bg-gray-700 hover:bg-cyan-500/20 border border-gray-600 hover:border-cyan-500 text-xs text-gray-300 hover:text-cyan-400 transition">
-              Unduh CSV
-            </button>
+
           </div>
         )}
         <div className="overflow-x-auto">
