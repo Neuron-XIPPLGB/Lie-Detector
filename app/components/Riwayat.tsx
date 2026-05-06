@@ -4,19 +4,21 @@ import { downloadCSV } from '../lib/utils';
 import SectionHeader from './SectionHeader';
 
 export default function Riwayat({ riwayatHook }: { riwayatHook: ReturnType<typeof import('../hooks/useRiwayat').useRiwayat> }) {
-  const { riwayat, hapusSemua } = riwayatHook;
+  const { riwayat, loading, hapusSemua } = riwayatHook;
 
   return (
     <section id="riwayat" className="py-12 sm:py-20">
       <SectionHeader title="Riwayat Tes" />
-      <p className="text-gray-300 text-sm sm:text-base mb-6">Riwayat tes tersimpan otomatis di perangkat ini.</p>
+      <p className="text-gray-300 text-sm sm:text-base mb-6">Riwayat tes tersimpan di Supabase Database.</p>
       <div className="bg-gray-900/80 border border-gray-800 rounded-2xl p-4 sm:p-6">
         <div className="flex justify-between items-center mb-4">
           <p className="text-sm text-gray-400">Total: <span className="text-cyan-400 font-semibold">{riwayat.length}</span> sesi</p>
           <button onClick={() => { if (confirm('Hapus semua riwayat tes?')) hapusSemua(); }} className="text-xs text-red-400 hover:text-red-300 transition">Hapus Semua</button>
         </div>
         <div className="space-y-3">
-          {riwayat.length === 0
+          {loading
+            ? <p className="text-sm text-gray-500 text-center py-4 animate-pulse">Memuat riwayat...</p>
+            : riwayat.length === 0
             ? <p className="text-sm text-gray-600 text-center py-4">Belum ada riwayat tes.</p>
             : riwayat.map((r, i) => (
               <div key={i} className="flex items-center justify-between p-3 bg-gray-800 rounded-lg text-sm gap-3">
