@@ -1,10 +1,18 @@
+import Image from 'next/image';
+
 export default function Hero() {
   return (
-    <header
-      className="min-h-screen flex items-center justify-center text-center px-4 sm:px-6 pt-14"
-      style={{ background: "linear-gradient(rgba(3,7,18,0.7),rgba(3,7,18,0.85)),url('/arduino-diagram.png') center/cover no-repeat" }}
-    >
-      <div className="max-w-3xl w-full animate-fadeUp">
+    <header className="relative min-h-screen flex items-center justify-center text-center px-4 sm:px-6 pt-14 overflow-hidden">
+      <Image
+        src="/arduino-diagram.png"
+        alt="Arduino Diagram"
+        fill
+        priority
+        className="object-cover object-center"
+        sizes="100vw"
+      />
+      <div className="absolute inset-0 bg-gray-950/75" />
+      <div className="relative z-10 max-w-3xl w-full animate-fadeUp">
         <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-4">
           ESP32 Pulse Sensor Lie Detector
         </h1>
