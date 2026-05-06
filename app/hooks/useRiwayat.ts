@@ -42,7 +42,17 @@ export function useRiwayat() {
       body: JSON.stringify(item),
     });
     const saved = await res.json();
-    setRiwayat(prev => [{ ...saved, rawData: saved.raw_data }, ...prev].slice(0, 20));
+    const newItem: RiwayatItem = {
+      id: saved.id,
+      nama: saved.nama,
+      avg: saved.avg,
+      max: saved.max,
+      min: saved.min,
+      kondisi: saved.kondisi,
+      waktu: saved.waktu,
+      rawData: saved.raw_data,
+    };
+    setRiwayat(prev => [newItem, ...prev].slice(0, 20));
   }
 
   async function hapusSemua() {

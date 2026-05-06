@@ -84,14 +84,16 @@ export default function TesDetector({ liveBpm, riwayatHook }: { liveBpm: number;
       persen: pBohong === 0 ? 'Tidak terdeteksi indikasi kebohongan.' : pBohong < 30 ? `Indikasi kebohongan rendah (${pBohong}%).` : pBohong < 60 ? `Indikasi kebohongan sedang — ${pBohong}% BPM di atas normal.` : `Indikasi kebohongan tinggi — ${pBohong}% BPM sangat tinggi.`,
       max, avg, min, cls: s.c, borderCls: colorMap[s.c] || 'border-gray-600 bg-gray-800', rawData: data,
     });
-    simpan({ nama, avg, max, min, kondisi: s.t, waktu: new Date().toLocaleString('id-ID'), rawData: data });
-    setRows([]); 
+    const namaFinal = nama;
+    const waktuFinal = new Date().toLocaleString('id-ID');
+    setRows([]);
     setNama('');
-    if (chartRef.current) { 
-      chartRef.current.data.labels = []; 
-      chartRef.current.data.datasets[0].data = []; 
-      chartRef.current.update(); 
+    if (chartRef.current) {
+      chartRef.current.data.labels = [];
+      chartRef.current.data.datasets[0].data = [];
+      chartRef.current.update();
     }
+    simpan({ nama: namaFinal, avg, max, min, kondisi: s.t, waktu: waktuFinal, rawData: data });
   }
 
   return (
