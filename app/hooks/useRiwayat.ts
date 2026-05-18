@@ -16,8 +16,15 @@ export function useRiwayat() {
   const [riwayat, setRiwayat] = useState<RiwayatItem[]>([]);
   const [loading, setLoading] = useState(true);
 
+  function getSessionId() {
+    let id = sessionStorage.getItem('neuron_session_id');
+    if (!id) { id = crypto.randomUUID(); sessionStorage.setItem('neuron_session_id', id); }
+    return id;
+  }
+
   useEffect(() => {
-    fetch('/api/riwayat')
+    const sessionId = getSessionId();
+    fetch(`/api/riwayat?session_id=${sessionId}`)
       .then(r => r.json())
       .then(data => {
         if (Array.isArray(data))
@@ -36,10 +43,11 @@ export function useRiwayat() {
   }, []);
 
   async function simpan(item: RiwayatItem) {
+    const sessionId = getSessionId();
     const res = await fetch('/api/riwayat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item),
+      body: JSON.stringify({ ...item, sessionId }),
     });
     const saved = await res.json();
     const newItem: RiwayatItem = {
@@ -56,7 +64,8 @@ export function useRiwayat() {
   }
 
   async function hapusSemua() {
-    await fetch('/api/riwayat', { method: 'DELETE' });
+    const sessionId = getSessionId();
+    await fetch(`/api/riwayat?session_id=${sessionId}`, { method: 'DELETE' });
     setRiwayat([]);
   }
 
