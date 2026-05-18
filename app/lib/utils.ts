@@ -6,7 +6,7 @@ export function getStatus(bpm: number) {
 }
 
 export function downloadCSV(rawData: { nama: string; bpm: number; waktu: string }[], nama: string, waktu: string) {
-  const ts = waktu.replace(/[/:, ]/g, '-').slice(0, 19);
+  const ts = (waktu ?? '').replace(/[/:, ]/g, '-').slice(0, 19);
   const bpms = rawData.map(r => r.bpm).filter(b => b > 0);
   const avg = bpms.length ? Math.round(bpms.reduce((a, b) => a + b, 0) / bpms.length) : 0;
   const max = bpms.length ? Math.max(...bpms) : 0;

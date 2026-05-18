@@ -52,13 +52,13 @@ export function useRiwayat() {
     const saved = await res.json();
     const newItem: RiwayatItem = {
       id: saved.id,
-      nama: saved.nama,
-      avg: saved.avg,
-      max: saved.max,
-      min: saved.min,
-      kondisi: saved.kondisi,
-      waktu: saved.waktu,
-      rawData: saved.raw_data,
+      nama: saved.nama ?? item.nama,
+      avg: saved.avg ?? item.avg,
+      max: saved.max ?? item.max,
+      min: saved.min ?? item.min,
+      kondisi: saved.kondisi ?? item.kondisi,
+      waktu: saved.waktu ?? item.waktu,
+      rawData: saved.raw_data ?? item.rawData,
     };
     setRiwayat(prev => [newItem, ...prev].slice(0, 20));
   }
